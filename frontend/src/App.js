@@ -1,11 +1,9 @@
-import './App.css';
-
+import "./App.css";
+import Customers from "./components/Customers";
 function App() {
   return (
     <div className="App">
-      <h1 className="text-3xl">
-      Hello world!
-    </h1>
+      <Customers />
     </div>
   );
 }
