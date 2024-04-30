@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-function EditCustomerModal({ open, onClose }) {
+function EditCustomerModal({ open, onClose, customer }) {
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -26,7 +26,7 @@ function EditCustomerModal({ open, onClose }) {
                 <input
                   type="text"
                   className="border rounded px-3 py-2 w-full mb-5"
-                  placeholder="Enter first name"
+                  placeholder={"Enter first name"}
                 />
                 <input
                   type="text"
