@@ -22,6 +22,15 @@ function Customers() {
     fetchData();
   }, []);
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(getCustomers);
+      setCustomers(response.data.customers);
+    } catch (error) {
+      console.error("Error fetching customers:", error);
+    }
+  };
+
   const openAddModal = () => {
     setIsAddModalOpen(true);
   };
@@ -41,7 +50,7 @@ function Customers() {
   return (
     <>
       {isAddModalOpen && (
-        <AddCustomerModal open={isAddModalOpen} onClose={closeAddModal} />
+        <AddCustomerModal open={isAddModalOpen} onClose={closeAddModal} onAdd={fetchData}/>
       )}
 
       <div className="relative overflow-x-auto">
@@ -95,6 +104,7 @@ function Customers() {
                       open={isEditModalOpen}
                       onClose={closeEditModal}
                       customer={customer}
+                      onEdit={fetchData}
                     />
                   )}
                   <select

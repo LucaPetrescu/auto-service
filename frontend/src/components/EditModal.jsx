@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function EditCustomerModal({ open, onClose, customer }) {
+function EditCustomerModal({ open, onClose, customer, onEdit }) {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -22,12 +22,11 @@ function EditCustomerModal({ open, onClose, customer }) {
   }, [customer]);
 
   const handleChange = (e) => {
-    // const { name, value } = e.target;
-    // setFormData({
-    //   ...formData,
-    //   [name]: value,
-    // });
-    console.log(e.target.value);
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
   const handleSubmit = (e) => {
@@ -35,6 +34,8 @@ function EditCustomerModal({ open, onClose, customer }) {
     // You can add your database update logic here
     // For example, you can send formData to an API endpoint to update the database
     console.log("Form submitted with data:", formData);
+    onClose()
+    onEdit()
   };
 
   if (!open) return null;
@@ -61,38 +62,43 @@ function EditCustomerModal({ open, onClose, customer }) {
               <div className="mb-4">
                 <input
                   type="text"
+                  name="firstName"
                   className="border rounded px-3 py-2 w-full mb-5"
                   placeholder={"Enter first name"}
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
                   value={formData.firstName}
                 />
 
                 <input
                   type="text"
+                  name="lastName"
                   className="border rounded px-3 py-2 w-full mb-5"
                   placeholder="Enter last name"
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
                   value={formData.lastName}
                 />
                 <input
                   type="text"
+                  name="CNP"
                   className="border rounded px-3 py-2 w-full mb-5"
                   placeholder="Enter CNP"
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
                   value={formData.CNP}
                 />
                 <input
                   type="text"
+                  name="email"
                   className="border rounded px-3 py-2 w-full mb-5"
                   placeholder="Enter email"
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
                   value={formData.email}
                 />
                 <input
                   type="text"
+                  name="phoneNumber"
                   className="border rounded px-3 py-2 w-full mb-5"
                   placeholder="Enter phone number"
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
                   value={formData.phoneNumber}
                 />
               </div>
