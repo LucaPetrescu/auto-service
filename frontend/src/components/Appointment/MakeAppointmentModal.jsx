@@ -41,6 +41,31 @@ function MakeAppointmentModal({ open, onClose, onAdd }) {
                   //   value={formData.lastName}
                   //   onChange={(e) => handleChange(e)}
                 />
+                <select
+                  name="appointmentHour"
+                  className="border rounded px-3 py-2 w-full mb-5"
+                  defaultValue="Select hour"
+                >
+                  {Array.from({ length: 10 }, (_, index) => {
+                    const hour = index + 8;
+                    return (
+                      <optgroup key={hour} label={`${hour}:00`}>
+                        <option value={`${hour}:00`}>{`${hour}:00`}</option>
+                        <option value={`${hour}:30`}>{`${hour}:30`}</option>
+                      </optgroup>
+                    );
+                  })}
+                </select>
+                <select
+                  name="selectedMinute"
+                  className="border rounded px-3 py-2 w-full mb-5"
+                >
+                  {Array.from({ length: 60 / 10 }).map((_, index) => (
+                    <option key={index * 10} value={index * 10}>
+                      {index * 10}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="flex justify-end">
                 <button

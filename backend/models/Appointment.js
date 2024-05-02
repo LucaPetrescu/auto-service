@@ -16,6 +16,8 @@ const appointmentSchema = new mongoose.Schema(
     },
     onRecieving: { type: String },
     onFinishing: { type: String },
+    make: { type: String, required: true },
+    model: { type: String, required: true },
   },
   {
     collection: "Appointments",
