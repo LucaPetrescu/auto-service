@@ -3,6 +3,37 @@ import axios from "axios";
 import { addCustomer } from "../../utils/utils";
 
 function MakeAppointmentModal({ open, onClose, onAdd }) {
+  const [formData, setFormData] = useState({
+    appointmentHour: "",
+    minute: "",
+    hour: "",
+    repairTook: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    console.log(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { onRecieving, onFinishing, appointmentHour, repairTook } = formData;
+    const hour = null;
+    const minute = null;
+    console.log(appointmentHour);
+    const numberRepairTook = parseInt(repairTook);
+    const { data } = await axios.post(addCustomer, {
+      onRecieving,
+      onFinishing,
+      minute,
+      hour,
+      numberRepairTook,
+    });
+    console.log(data);
+    // onAdd();
+    onClose();
+  };
+
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -23,29 +54,31 @@ function MakeAppointmentModal({ open, onClose, onAdd }) {
             <h4 className="text-lg font-medium text-gray-900 mb-4">
               Make appointment
             </h4>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <input
                   type="text"
                   name="onRecieving"
                   className="border rounded px-3 py-2 w-full mb-5"
                   placeholder="Enter problems noted by the mechanic"
-                  //   value={formData.firstName}
-                  //   onChange={()}
+                  value={formData.onRecieving}
+                  onChange={handleChange}
                 />
                 <input
                   type="text"
                   name="onFinishing"
                   className="border rounded px-3 py-2 w-full mb-5"
-                  placeholder="Enter porblems that have been solved"
-                  //   value={formData.lastName}
-                  //   onChange={(e) => handleChange(e)}
+                  placeholder="Enter problems that have been solved"
+                  value={formData.onFinishing}
+                  onChange={handleChange}
                 />
                 <select
                   name="appointmentHour"
                   className="border rounded px-3 py-2 w-full mb-5"
-                  defaultValue="Select hour"
+                  value={formData.appointmentHour}
+                  onChange={handleChange}
                 >
+                  <option value="">Select hour</option>
                   {Array.from({ length: 10 }, (_, index) => {
                     const hour = index + 8;
                     return (
@@ -57,9 +90,12 @@ function MakeAppointmentModal({ open, onClose, onAdd }) {
                   })}
                 </select>
                 <select
-                  name="selectedMinute"
+                  name="repairTook"
                   className="border rounded px-3 py-2 w-full mb-5"
+                  value={formData.repairTook}
+                  onChange={handleChange}
                 >
+                  <option value="">Select minutes</option>
                   {Array.from({ length: 60 / 10 }).map((_, index) => (
                     <option key={index * 10} value={index * 10}>
                       {index * 10}
