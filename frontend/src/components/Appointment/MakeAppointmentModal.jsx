@@ -18,9 +18,10 @@ function MakeAppointmentModal({ open, onClose, onAdd }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { onRecieving, onFinishing, appointmentHour, repairTook } = formData;
-    const hour = null;
-    const minute = null;
-    console.log(appointmentHour);
+    const [hoursString, minutesString] = appointmentHour.split(":");
+    const hour = parseInt(hoursString, 10);
+    const minute = parseInt(minutesString, 10);
+
     const numberRepairTook = parseInt(repairTook);
     const { data } = await axios.post(addCustomer, {
       onRecieving,
