@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const vehicleSchema = new mongoose.Schema(
   {
+    licensePlate: {
+      type: String,
+      required: true,
+    },
     make: {
       type: String,
       required: true,
@@ -11,13 +15,12 @@ const vehicleSchema = new mongoose.Schema(
       required: true,
     },
     chasisSeries: {
-      type: Number,
+      type: String,
       required: true,
     },
-    makeYear: {
+    fabricationYear: {
       type: Number,
       required: true,
-      unique: true,
     },
     engineType: {
       type: String,
@@ -28,13 +31,20 @@ const vehicleSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    power: {
+    horsePower: {
+      type: Number,
+      required: true,
+    },
+    kWPower: {
       type: Number,
       required: true,
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
+    },
+    description: {
+      type: String,
     },
   },
   {

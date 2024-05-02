@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios"
-import { addCustomer } from "../utils/utils";
+import { addCustomer } from "../../utils/utils";
 
 function AddCustomerModal({ open, onClose, onAdd }) {
 

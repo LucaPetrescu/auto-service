@@ -23,7 +23,7 @@ const customerSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    vehichesOwned: [{ type: mongoose.Schema.Types.ObjectId, ref: "Vehicle" }],
+    vehiclesOwned: [{ type: mongoose.Schema.Types.ObjectId, ref: "Vehicle" }],
   },
   {
     collection: "Customers",

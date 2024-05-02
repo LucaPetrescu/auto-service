@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { updateCustomer } from "../../utils/utils";
 
 function EditCustomerModal({ open, onClose, customer, onEdit }) {
   const [formData, setFormData] = useState({
@@ -29,13 +31,19 @@ function EditCustomerModal({ open, onClose, customer, onEdit }) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // You can add your database update logic here
-    // For example, you can send formData to an API endpoint to update the database
-    console.log("Form submitted with data:", formData);
-    onClose()
-    onEdit()
+    const { firstName, lastName, email, CNP, phoneNumber } = formData;
+    const { data } = await axios.patch(updateCustomer, {
+      firstName,
+      lastName,
+      email,
+      CNP,
+      phoneNumber,
+    });
+    console.log("Form submitted with data:", data);
+    onClose();
+    onEdit();
   };
 
   if (!open) return null;

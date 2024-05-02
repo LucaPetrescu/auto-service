@@ -1,5 +1,4 @@
 const Customer = require("../models/Customer");
-const Vehicle = require("../models/Vehicle");
 
 exports.addCustomer = async (req, res) => {
   try {
@@ -43,12 +42,18 @@ exports.getCustomerByCNP = async (req, res) => {
 
 exports.updateCustomer = async (req, res) => {
   try {
-    const CNP = req.query.CNP;
+    const CNP = req.body.CNP;
+    const { firstName, lastName, email, phoneNumber } = req.body;
     const updatedCustomer = await Customer.findOneAndUpdate(
       { CNP: CNP },
-      { lastName: "Mihai" }
+      {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phoneNumber: phoneNumber,
+      }
     );
-    res.status(200).send(updatedCustomer);
+    res.status(200).send("Updated customer");
   } catch (e) {
     console.log(e.message);
     res.status(500).send(e.message);

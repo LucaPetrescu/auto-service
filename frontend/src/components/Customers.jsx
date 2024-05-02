@@ -1,12 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getCustomers } from "../utils/utils";
-import AddCustomerModal from "./AddModal";
-import EditCustomerModal from "./EditModal";
+import AddCustomerModal from "./Customer/AddClientModal";
+import EditCustomerModal from "./Customer/EditCustomerModal";
+import DeleteDialog from "./Customer/DeleteDialog";
 
 function Customers() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [customers, setCustomers] = useState([]);
 
   useEffect(() => {
@@ -47,10 +50,22 @@ function Customers() {
     setIsEditModalOpen(false);
   };
 
+  const openDeleteDialog = () => {
+    setIsDeleteDialogOpen(true);
+  };
+
+  const closeDeleteDialog = () => {
+    setIsDeleteDialogOpen(false);
+  };
+
   return (
     <>
       {isAddModalOpen && (
-        <AddCustomerModal open={isAddModalOpen} onClose={closeAddModal} onAdd={fetchData}/>
+        <AddCustomerModal
+          open={isAddModalOpen}
+          onClose={closeAddModal}
+          onAdd={fetchData}
+        />
       )}
 
       <div className="relative overflow-x-auto">
@@ -58,7 +73,7 @@ function Customers() {
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
-                Fisrt Name
+                First Name
               </th>
               <th scope="col" className="px-6 py-3">
                 Last Name
@@ -71,9 +86,6 @@ function Customers() {
               </th>
               <th scope="col" className="px-6 py-3">
                 Phone Number
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Appointment
               </th>
               <th scope="col" className="px-6 py-3">
                 Edit User
@@ -92,44 +104,29 @@ function Customers() {
                 key={customer._id}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
               >
+                {isEditModalOpen && (
+                  <EditCustomerModal
+                    open={isEditModalOpen}
+                    onClose={closeEditModal}
+                    customer={customer}
+                    onEdit={fetchData}
+                  />
+                )}
+
+                {isDeleteDialogOpen && (
+                  <DeleteDialog
+                    open={isDeleteDialogOpen}
+                    customerCNP={customer.CNP}
+                    onClose={closeDeleteDialog}
+                    onDelete={fetchData}
+                  />
+                )}
                 <td className="px-6 py-4">{customer.firstName}</td>
                 <td className="px-6 py-4">{customer.lastName}</td>
                 <td className="px-6 py-4">{customer.CNP}</td>
                 <td className="px-6 py-4">{customer.email}</td>
                 <td className="px-6 py-4">{customer.phoneNumber}</td>
-                <td className="px-6 py-4">
-                  {" "}
-                  {isEditModalOpen && (
-                    <EditCustomerModal
-                      open={isEditModalOpen}
-                      onClose={closeEditModal}
-                      customer={customer}
-                      onEdit={fetchData}
-                    />
-                  )}
-                  <select
-                    id="hour"
-                    name="hour"
-                    className="border rounded px-3 py-2 mr-2"
-                  >
-                    {Array.from({ length: 10 }, (_, index) => (
-                      <option key={index + 8} value={index + 8}>
-                        {index + 8}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    id="minute"
-                    name="minute"
-                    className="border rounded px-3 py-2 mr-2"
-                  >
-                    {Array.from({ length: 60 / 30 }).map((_, index) => (
-                      <option key={index} value={index * 30}>
-                        {index * 30}
-                      </option>
-                    ))}
-                  </select>
-                </td>
+
                 <td className="px-6 py-4">
                   <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -139,12 +136,15 @@ function Customers() {
                   </button>
                 </td>
                 <td className="px-6 py-4">
-                  <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                  <button
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={openDeleteDialog}
+                  >
                     Delete User
                   </button>
                 </td>
                 <td className="px-6 py-4">
-                  <a>See Vehicles</a>
+                  <Link to={`/vehicles?id=${customer._id}`}>See vehicles</Link>
                 </td>
               </tr>
             ))}
